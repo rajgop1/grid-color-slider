@@ -63,6 +63,7 @@
         <select id="mode">
             <option value="mouseover">Mouseover</option>
             <option value="click">Click</option>
+            <option value="drag">Click & Drag</option>
         </select>
         
         <button id="clearBtn">Clear</button>
@@ -75,6 +76,8 @@
         const colorPicker = document.getElementById("colorPicker");
         const clearBtn = document.getElementById("clearBtn");
         const modeSelect = document.getElementById("mode");
+        
+        let isMouseDown = false;
         
         function createGrid(size) {
             grid.innerHTML = "";
@@ -91,6 +94,7 @@
                 
                 cell.addEventListener("mouseover", () => {
                     if (modeSelect.value === "mouseover") changeColor();
+                    if (modeSelect.value === "drag" && isMouseDown) changeColor();
                 });
                 
                 cell.addEventListener("click", () => {
@@ -100,6 +104,9 @@
                 grid.appendChild(cell);
             }
         }
+        
+        document.addEventListener("mousedown", () => isMouseDown = true);
+        document.addEventListener("mouseup", () => isMouseDown = false);
         
         gridSize.addEventListener("input", () => createGrid(gridSize.value));
         clearBtn.addEventListener("click", () => createGrid(gridSize.value));
