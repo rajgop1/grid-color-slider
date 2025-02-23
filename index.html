@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid Highlighter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+        }
+        #controls {
+            margin-bottom: 10px;
+        }
+        .grid-container {
+            display: grid;
+            gap: 2px;
+            border: 1px solid #ddd;
+            margin-top: 10px;
+        }
+        .grid-item {
+            width: 30px;
+            height: 30px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div id="controls">
+        <label for="gridSize">Grid Size:</label>
+        <input type="range" id="gridSize" min="2" max="20" value="10">
+        <label for="colorPicker">Select Color:</label>
+        <input type="color" id="colorPicker">
+        <button id="clearBtn">Clear</button>
+    </div>
+    <div id="grid" class="grid-container"></div>
+    
+    <script>
+        const grid = document.getElementById("grid");
+        const gridSize = document.getElementById("gridSize");
+        const colorPicker = document.getElementById("colorPicker");
+        const clearBtn = document.getElementById("clearBtn");
+        
+        function createGrid(size) {
+            grid.innerHTML = "";
+            grid.style.gridTemplateColumns = `repeat(${size}, 30px)`;
+            grid.style.gridTemplateRows = `repeat(${size}, 30px)`;
+            
+            for (let i = 0; i < size * size; i++) {
+                let cell = document.createElement("div");
+                cell.classList.add("grid-item");
+                cell.addEventListener("mouseover", () => {
+                    cell.style.backgroundColor = colorPicker.value;
+                });
+                grid.appendChild(cell);
+            }
+        }
+        
+        gridSize.addEventListener("input", () => createGrid(gridSize.value));
+        clearBtn.addEventListener("click", () => createGrid(gridSize.value));
+        
+        createGrid(gridSize.value);
+    </script>
+</body>
+</html>
